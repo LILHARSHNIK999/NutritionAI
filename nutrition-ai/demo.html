@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutritionAI Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#22c55e',
+                        secondary: '#334155',
+                        muted: '#f1f5f9',
+                        destructive: '#ef4444',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-white border-b">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-2xl font-bold text-primary">NutritionAI</span>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-gray-900 hover:text-primary transition-colors">Home</a>
+                <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">About</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button class="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium">Get Started</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="py-12 md:py-20">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 md:pr-12">
+                    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+                        Your Personalized <span class="text-primary">Nutrition</span> Journey Starts Here
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Generate customized diet plans based on your body metrics, preferences, and health goals with our advanced AI-powered platform.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button id="get-started-btn" class="px-6 py-3 bg-primary text-white rounded-md text-sm font-medium">
+                            Get Started
+                        </button>
+                        <button id="learn-more-btn" class="px-6 py-3 border border-gray-300 rounded-md text-sm font-medium">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mt-12 md:mt-0">
+                    <div class="relative">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-primary to-blue-600 rounded-lg blur opacity-25"></div>
+                        <div class="relative bg-white border rounded-lg shadow-xl overflow-hidden">
+                            <img
+                                src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                                alt="Healthy meal planning"
+                                class="w-full h-auto"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Diet Tip of the Day - Changes on Refresh -->
+        <section class="py-8">
+            <div class="card max-w-4xl mx-auto p-6 border-l-4 border-primary">
+                <div class="flex items-start">
+                    <div id="diet-tip-icon" class="text-4xl mr-4">🥦</div>
+                    <div>
+                        <h3 id="diet-tip-title" class="text-xl font-semibold mb-2">Nutrition Tip of the Day</h3>
+                        <p id="diet-tip-description" class="text-gray-600">Loading a fresh nutrition tip...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Inspirational Quote - Changes on Refresh -->
+        <section class="py-4">
+            <div class="max-w-4xl mx-auto p-8 text-center bg-gray-50 rounded-lg">
+                <blockquote class="italic text-xl text-gray-700">
+                    "<span id="quote-text">Let food be thy medicine and medicine be thy food.</span>"
+                </blockquote>
+                <p class="mt-4 text-gray-500">— <span id="quote-author">Hippocrates</span></p>
+            </div>
+        </section>
+
+        <section class="py-12 bg-gray-100">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Our Tools</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Explore our suite of nutrition tools
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-7xl mx-auto">
+                <!-- Nutrition Calculator -->
+                <div class="card p-6 md:col-span-4">
+                    <h3 class="text-xl font-semibold mb-4">Nutrition Calculator</h3>
+                    <p class="text-gray-600 mb-6">
+                        Calculate your BMI, Ideal Body Weight, and personalized nutrition plan
+                    </p>
+
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label for="height" class="text-sm font-medium">
+                                Height (cm)
+                            </label>
+                            <input
+                                id="height"
+                                type="number"
+                                placeholder="Enter your height in cm"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label for="weight" class="text-sm font-medium">
+                                Weight (kg)
+                            </label>
+                            <input
+                                id="weight"
+                                type="number"
+                                placeholder="Enter your weight in kg"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label for="age" class="text-sm font-medium">
+                                Age (years)
+                            </label>
+                            <input
+                                id="age"
+                                type="number"
+                                placeholder="Enter your age"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            />
+                        </div>
+                        <div class="space-y-2">
+                            <label for="gender" class="text-sm font-medium">
+                                Gender
+                            </label>
+                            <select
+                                id="gender"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            >
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label for="activityLevel" class="text-sm font-medium">
+                                Activity Level
+                            </label>
+                            <select
+                                id="activityLevel"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            >
+                                <option value="sedentary">Sedentary (little or no exercise)</option>
+                                <option value="light">Light (exercise 1-3 days/week)</option>
+                                <option value="moderate">Moderate (exercise 3-5 days/week)</option>
+                                <option value="active">Active (exercise 6-7 days/week)</option>
+                                <option value="very_active">Very Active (hard exercise & physical job)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="goal" class="text-sm font-medium">
+                                Goal
+                            </label>
+                            <select
+                                id="goal"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            >
+                                <option value="weight_loss">Weight Loss</option>
+                                <option value="moderate_weight_loss">Moderate Weight Loss</option>
+                                <option value="mild_weight_loss">Mild Weight Loss</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="mild_weight_gain">Mild Weight Gain</option>
+                                <option value="moderate_weight_gain">Moderate Weight Gain</option>
+                                <option value="weight_gain">Weight Gain</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="results" class="hidden mt-6 p-4 bg-gray-100 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-3">Your Results</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm font-medium">BMI</p>
+                                <p class="text-2xl font-bold" id="bmi-value">25.0</p>
+                                <p class="text-sm text-gray-600" id="bmi-category">Normal weight</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">Ideal Body Weight</p>
+                                <p class="text-2xl font-bold" id="ibw-value">70 kg</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">Basal Metabolic Rate</p>
+                                <p class="text-2xl font-bold" id="bmr-value">1600 calories</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium">Total Daily Energy Expenditure</p>
+                                <p class="text-2xl font-bold" id="tdee-value">2200 calories</p>
+                            </div>
+                            <div class="col-span-2">
+                                <p class="text-sm font-medium">Daily Calorie Target</p>
+                                <p class="text-2xl font-bold" id="calorie-target">2000 calories</p>
+                            </div>
+                            <div class="col-span-2">
+                                <p class="text-sm font-medium">Macronutrient Breakdown</p>
+                                <div class="grid grid-cols-3 gap-2 mt-2">
+                                    <div class="bg-blue-100 p-2 rounded-md text-center">
+                                        <p class="text-sm">Protein</p>
+                                        <p class="text-xl font-bold" id="protein-value">125g</p>
+                                        <p class="text-xs text-gray-600" id="protein-percent">25%</p>
+                                    </div>
+                                    <div class="bg-green-100 p-2 rounded-md text-center">
+                                        <p class="text-sm">Carbs</p>
+                                        <p class="text-xl font-bold" id="carbs-value">225g</p>
+                                        <p class="text-xs text-gray-600" id="carbs-percent">45%</p>
+                                    </div>
+                                    <div class="bg-yellow-100 p-2 rounded-md text-center">
+                                        <p class="text-sm">Fat</p>
+                                        <p class="text-xl font-bold" id="fat-value">67g</p>
+                                        <p class="text-xs text-gray-600" id="fat-percent">30%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button id="calculate-btn" class="w-full px-4 py-2 bg-primary text-white rounded-md text-sm font-medium">
+                        Calculate
+                    </button>
+                </div>
+                </div>
+                
+                <!-- Vision-Based Nutrition Analysis -->
+                <div class="card p-6 md:col-span-3">
+                    <h3 class="text-xl font-semibold mb-4">Food Scanner</h3>
+                    <p class="text-gray-600 mb-6">
+                        Use your camera to identify food items and get their nutritional breakdown
+                    </p>
+                    
+                    <div class="bg-gray-900 rounded-lg overflow-hidden relative h-40">
+                        <video id="camera-feed" class="w-full h-full object-cover hidden"></video>
+                        <div id="camera-placeholder" class="w-full h-full bg-gray-800 flex items-center justify-center">
+                           <div class="text-center text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <p class="text-xs">Camera feed</p>
+                            </div>
+                        </div>
+                        <div id="scanning-overlay" class="absolute inset-0 bg-primary bg-opacity-30 items-center justify-center hidden">
+                            <div class="text-white text-center">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
+                                 <p class="text-sm">Analyzing...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 flex space-x-2">
+                        <button id="start-camera" class="px-3 py-2 bg-primary text-white rounded-md text-xs font-medium flex-1">
+                            Start Camera
+                        </button>
+                        <button id="take-photo" class="px-3 py-2 bg-secondary text-white rounded-md text-xs font-medium flex-1" disabled>
+                            Analyze Food
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div id="analysis-results" class="border rounded-lg p-3 hidden overflow-y-auto max-h-40">
+                            <h4 class="font-semibold text-sm mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                AI Analysis Results:
+                            </h4>
+                            <div id="food-items-container" class="text-sm">
+                                <!-- Food items will be added here -->
+                            </div>
+                        </div>
+                        <div id="analysis-placeholder" class="border rounded-lg p-3 text-center text-gray-500 text-sm bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <p>Food analysis results will appear here</p>
+                            <p class="text-xs mt-1">Take a photo to analyze nutritional content</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Nutrition Assistant -->
+                <div class="card p-6 md:col-span-5">
+                    <h3 class="text-xl font-semibold mb-4">AI Assistant</h3>
+                    <p class="text-gray-600 mb-6">
+                        Chat with our AI for personalized nutrition advice
+                    </p>
+                    
+                    <div class="h-48 overflow-y-auto p-3 space-y-3 border rounded-lg mb-4 bg-gray-50">
+                        <div class="flex justify-start">
+                            <div class="max-w-[90%] rounded-lg p-2 bg-gray-100 text-sm">
+                                <div>Hello! How can I help with your nutrition goals today?</div>
+                                <div class="text-xs mt-1 text-gray-500">AI Assistant</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2">
+                        <input
+                            placeholder="Ask about nutrition or diet..."
+                            class="flex-grow px-3 py-2 border border-gray-300 rounded-md text-sm w-full"
+                        />
+                        <button class="px-3 py-2 bg-primary text-white rounded-md text-xs font-medium">
+                            Send
+                        </button>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500 text-center">
+                        Try: "protein sources", "meal plan", "weight loss tips"
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-100 py-8">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h3 class="text-lg font-semibold mb-2">NutritionAI</h3>
+                <p class="text-gray-600 mb-4">
+                    Personalized nutrition plans powered by artificial intelligence.
+                </p>
+                <p class="text-gray-600">
+                    &copy; 2024 NutritionAI. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize state for chat messages
+        const chatMessages = [
+            {
+                sender: 'ai',
+                content: "Hello! I'm your nutrition AI assistant. How can I help you with your diet and nutrition goals today?",
+                timestamp: '10:30 AM'
+            },
+            {
+                sender: 'user',
+                content: "I want to lose weight and build muscle. What kind of diet should I follow?",
+                timestamp: '10:31 AM'
+            },
+            {
+                sender: 'ai',
+                content: "For weight loss and muscle building, I recommend a high-protein diet with a moderate calorie deficit. Here are some key principles:<br><br>1. Aim for a 15-20% calorie deficit from your maintenance level<br>2. Consume 1.6-2.2g of protein per kg of body weight<br>3. Include strength training 3-4 times per week<br>4. Focus on whole foods: lean proteins, vegetables, fruits, and whole grains<br>5. Time your protein intake around workouts<br><br>Would you like me to create a sample meal plan based on these principles?",
+                timestamp: '10:32 AM'
+            }
+        ];
+
+        // Sample AI responses for common nutrition questions
+        const aiResponses = {
+            "meal plan": "Here's a sample meal plan for weight loss and muscle building:<br><br><strong>Breakfast (7:00 AM):</strong><br>- 3 egg whites + 1 whole egg scrambled<br>- 1/2 cup oatmeal with berries<br>- 1 tablespoon almond butter<br>Total: ~400 calories, 30g protein<br><br><strong>Snack (10:00 AM):</strong><br>- Greek yogurt (0% fat, 200g)<br>- 1 tablespoon honey<br>- 10 almonds<br>Total: ~250 calories, 22g protein<br><br><strong>Lunch (1:00 PM):</strong><br>- 150g grilled chicken breast<br>- Large mixed salad with olive oil and vinegar<br>- 1/2 cup brown rice or quinoa<br>Total: ~450 calories, 40g protein<br><br><strong>Pre-workout (4:00 PM):</strong><br>- 1 apple<br>- 1 scoop whey protein<br>Total: ~200 calories, 25g protein<br><br><strong>Dinner (7:00 PM):</strong><br>- 150g salmon or lean beef<br>- 1 cup steamed vegetables<br>- Small sweet potato<br>Total: ~450 calories, 35g protein<br><br><strong>Evening (9:00 PM):</strong><br>- Casein protein shake or cottage cheese<br>- Small handful of berries<br>Total: ~150 calories, 25g protein<br><br>Daily totals: ~1900 calories, ~175g protein, ~150g carbs, ~55g fat",
+            
+            "protein": "Good protein sources for muscle building include:<br><br>1. <strong>Lean meats:</strong> Chicken breast, turkey, lean beef, pork tenderloin<br>2. <strong>Fish:</strong> Salmon, tuna, tilapia, cod<br>3. <strong>Eggs:</strong> Whole eggs and egg whites<br>4. <strong>Dairy:</strong> Greek yogurt, cottage cheese, whey protein<br>5. <strong>Plant-based:</strong> Tofu, tempeh, seitan, legumes, quinoa<br><br>For optimal muscle protein synthesis, aim to distribute your protein intake evenly throughout the day, with 20-40g per meal depending on your body size.",
+            
+            "vegetarian": "For vegetarians looking to build muscle and lose fat, focus on these protein sources:<br><br>1. <strong>Dairy:</strong> Greek yogurt, cottage cheese, milk, whey protein<br>2. <strong>Eggs:</strong> Whole eggs and egg whites<br>3. <strong>Plant proteins:</strong> Tofu, tempeh, seitan, edamame<br>4. <strong>Legumes:</strong> Lentils, chickpeas, black beans<br>5. <strong>Grains:</strong> Quinoa, amaranth, spelt<br>6. <strong>Nuts and seeds:</strong> Almonds, pumpkin seeds, chia seeds<br><br>Combine complementary plant proteins to ensure you get all essential amino acids. Consider a vitamin B12 supplement as this nutrient is primarily found in animal products.",
+            
+            "supplements": "For your fitness goals, these supplements may be beneficial:<br><br>1. <strong>Protein powder:</strong> Whey, casein, or plant-based options for convenient protein<br>2. <strong>Creatine monohydrate:</strong> 5g daily to improve strength and muscle gains<br>3. <strong>Fish oil:</strong> 1-3g daily for recovery and overall health<br>4. <strong>Vitamin D:</strong> 1000-5000 IU if you have limited sun exposure<br>5. <strong>Magnesium:</strong> 200-400mg daily for muscle function and recovery<br><br>Remember that supplements should complement a solid nutrition plan, not replace whole foods.",
+            
+            "carbs": "For your weight loss and muscle building goals, focus on these quality carb sources:<br><br>1. <strong>Whole grains:</strong> Oats, brown rice, quinoa, barley<br>2. <strong>Starchy vegetables:</strong> Sweet potatoes, squash, peas<br>3. <strong>Fruits:</strong> Berries, apples, oranges (lower glycemic options)<br>4. <strong>Legumes:</strong> Lentils, beans, chickpeas<br><br>Time most of your carbs around your workouts when your body can best utilize them for energy and recovery. Reduce carbs slightly on non-training days."
+        };
+
+        // Function for simplified chat in the side-by-side layout
+
+        // Function to get current time in AM/PM format
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Function to generate AI response based on user input
+        function generateAIResponse(userInput) {
+            const lowerInput = userInput.toLowerCase();
+            let response = "I'm not sure how to help with that specific question. Could you ask me about nutrition, meal plans, protein sources, or specific diet types?";
+            
+            // Check for keywords in the user input
+            for (const [keyword, aiResponse] of Object.entries(aiResponses)) {
+                if (lowerInput.includes(keyword)) {
+                    response = aiResponse;
+                    break;
+                }
+            }
+            
+            return response;
+        }
+
+        // Wait for DOM to be fully loaded
+        // Diet tips and facts that will change on refresh
+        const dietTipsAndFacts = [
+            {
+                title: "Protein for Muscle Recovery",
+                description: "Consuming 20-40g of protein within 30 minutes after exercise can optimize muscle recovery and growth.",
+                icon: "🏋️‍♂️"
+            },
+            {
+                title: "Hydration Matters",
+                description: "Even mild dehydration can reduce performance by up to 30%. Aim for 8-10 glasses of water daily, more when exercising.",
+                icon: "💧"
+            },
+            {
+                title: "Fiber for Gut Health",
+                description: "Adults should consume 25-30g of fiber daily for optimal digestive health and to reduce the risk of chronic diseases.",
+                icon: "🥦"
+            },
+            {
+                title: "Omega-3 Benefits",
+                description: "Fatty fish like salmon and mackerel provide omega-3 fatty acids that reduce inflammation and support heart health.",
+                icon: "🐟"
+            },
+            {
+                title: "Mindful Eating",
+                description: "Eating slowly and without distractions helps you enjoy your food more and consume fewer calories.",
+                icon: "🧘‍♀️"
+            },
+            {
+                title: "Balanced Plate Method",
+                description: "Fill half your plate with vegetables, a quarter with lean protein, and a quarter with whole grains for balanced nutrition.",
+                icon: "🍽️"
+            },
+            {
+                title: "Meal Timing",
+                description: "Spreading your calorie intake across 3-5 meals can help maintain stable blood sugar and reduce overeating.",
+                icon: "⏰"
+            },
+            {
+                title: "Colorful Diet",
+                description: "Eat a rainbow of fruits and vegetables to ensure you get a wide variety of nutrients and antioxidants.",
+                icon: "🌈"
+            },
+            {
+                title: "Protein Variety",
+                description: "Rotate between animal and plant proteins to get different amino acid profiles and micronutrients.",
+                icon: "🥩🌱"
+            },
+            {
+                title: "Healthy Fats",
+                description: "Avocados, nuts, and olive oil provide monounsaturated fats that support heart health and hormone production.",
+                icon: "🥑"
+            }
+        ];
+
+        // Function to get a random diet tip
+        function getRandomDietTip() {
+            const randomIndex = Math.floor(Math.random() * dietTipsAndFacts.length);
+            return dietTipsAndFacts[randomIndex];
+        }
+        
+        // Diet and nutrition quotes that will change on refresh
+        const nutritionQuotes = [
+            {
+                quote: "Let food be thy medicine and medicine be thy food.",
+                author: "Hippocrates"
+            },
+            {
+                quote: "The food you eat can be either the safest and most powerful form of medicine or the slowest form of poison.",
+                author: "Ann Wigmore"
+            },
+            {
+                quote: "Take care of your body. It's the only place you have to live.",
+                author: "Jim Rohn"
+            },
+            {
+                quote: "Your diet is a bank account. Good food choices are good investments.",
+                author: "Bethenny Frankel"
+            },
+            {
+                quote: "You are what you eat, so don't be fast, cheap, easy, or fake.",
+                author: "Unknown"
+            },
+            {
+                quote: "The greatest wealth is health.",
+                author: "Virgil"
+            },
+            {
+                quote: "If you keep good food in your fridge, you will eat good food.",
+                author: "Errick McAdams"
+            },
+            {
+                quote: "Don't eat anything your great-grandmother wouldn't recognize as food.",
+                author: "Michael Pollan"
+            },
+            {
+                quote: "Eat breakfast like a king, lunch like a prince, and dinner like a pauper.",
+                author: "Adelle Davis"
+            },
+            {
+                quote: "The only way to keep your health is to eat what you don't want, drink what you don't like, and do what you'd rather not.",
+                author: "Mark Twain"
+            }
+        ];
+        
+        // Function to get a random quote
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * nutritionQuotes.length);
+            return nutritionQuotes[randomIndex];
+        }
+        
+        // Healthy food images that will change on refresh
+        const healthyFoodImages = [
+            "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+            "https://images.unsplash.com/photo-1607532941433-304659e8198a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+        ];
+        
+        // Function to get a random food image
+        function getRandomFoodImage() {
+            const randomIndex = Math.floor(Math.random() * healthyFoodImages.length);
+            return healthyFoodImages[randomIndex];
+        }
+
+        // Sample food database for demo purposes
+        const foodDatabase = {
+            "apple": {
+                name: "Apple",
+                servingSize: "1 medium (182g)",
+                calories: 95,
+                protein: 0.5,
+                carbs: 25,
+                fat: 0.3,
+                fiber: 4.4,
+                sugar: 19,
+                image: "https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "banana": {
+                name: "Banana",
+                servingSize: "1 medium (118g)",
+                calories: 105,
+                protein: 1.3,
+                carbs: 27,
+                fat: 0.4,
+                fiber: 3.1,
+                sugar: 14.4,
+                image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "chicken_breast": {
+                name: "Chicken Breast",
+                servingSize: "1 breast (172g)",
+                calories: 284,
+                protein: 53.4,
+                carbs: 0,
+                fat: 6.2,
+                fiber: 0,
+                sugar: 0,
+                image: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "salmon": {
+                name: "Salmon Fillet",
+                servingSize: "1 fillet (178g)",
+                calories: 367,
+                protein: 39.8,
+                carbs: 0,
+                fat: 22,
+                fiber: 0,
+                sugar: 0,
+                image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "broccoli": {
+                name: "Broccoli",
+                servingSize: "1 cup chopped (91g)",
+                calories: 31,
+                protein: 2.6,
+                carbs: 6,
+                fat: 0.3,
+                fiber: 2.4,
+                sugar: 1.5,
+                image: "https://images.unsplash.com/photo-1584270354949-c26b0d5b4a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "rice": {
+                name: "White Rice (Cooked)",
+                servingSize: "1 cup (158g)",
+                calories: 205,
+                protein: 4.3,
+                carbs: 44.5,
+                fat: 0.4,
+                fiber: 0.6,
+                sugar: 0.1,
+                image: "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "avocado": {
+                name: "Avocado",
+                servingSize: "1/2 medium (68g)",
+                calories: 114,
+                protein: 1.3,
+                carbs: 6,
+                fat: 10.5,
+                fiber: 4.6,
+                sugar: 0.2,
+                image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "quinoa": {
+                name: "Quinoa (Cooked)",
+                servingSize: "1 cup (185g)",
+                calories: 222,
+                protein: 8.1,
+                carbs: 39.4,
+                fat: 3.6,
+                fiber: 5.2,
+                sugar: 1.6,
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e8ac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "sweet_potato": {
+                name: "Sweet Potato (Baked)",
+                servingSize: "1 medium (114g)",
+                calories: 103,
+                protein: 2.3,
+                carbs: 23.6,
+                fat: 0.2,
+                fiber: 3.8,
+                sugar: 7.4,
+                image: "https://images.unsplash.com/photo-1596097635121-14b38c5d7a83?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "oatmeal": {
+                name: "Oatmeal (Cooked)",
+                servingSize: "1 cup (234g)",
+                calories: 166,
+                protein: 5.9,
+                carbs: 28.1,
+                fat: 3.6,
+                fiber: 4,
+                sugar: 1.1,
+                image: "https://images.unsplash.com/photo-1614961233913-a5113a4a34ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "pizza": {
+                name: "Pizza Slice",
+                servingSize: "1 slice (107g)",
+                calories: 285,
+                protein: 12.2,
+                carbs: 35.7,
+                fat: 10.4,
+                fiber: 2.5,
+                sugar: 3.8,
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            },
+            "salad": {
+                name: "Garden Salad",
+                servingSize: "1 bowl (100g)",
+                calories: 20,
+                protein: 1.2,
+                carbs: 3.8,
+                fat: 0.2,
+                fiber: 1.8,
+                sugar: 1.4,
+                image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80"
+            }
+        };
+
+        // Function to create a food item card
+        function createFoodItemCard(food, quantity = 1) {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-lg shadow-sm border p-3 mb-3';
+            
+            const multiplier = quantity;
+            const calories = Math.round(food.calories * multiplier);
+            const protein = (food.protein * multiplier).toFixed(1);
+            const carbs = (food.carbs * multiplier).toFixed(1);
+            const fat = (food.fat * multiplier).toFixed(1);
+            
+            card.innerHTML = `
+                <div class="flex items-center">
+                    <img src="${food.image}" alt="${food.name}" class="w-16 h-16 object-cover rounded-md mr-3">
+                    <div class="flex-grow">
+                        <h5 class="font-semibold">${food.name}</h5>
+                        <p class="text-xs text-gray-500">${food.servingSize} × ${quantity}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold">${calories} kcal</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-2 text-xs">
+                    <div class="bg-blue-100 p-1 rounded text-center">
+                        <span class="block font-semibold">Protein</span>
+                        <span>${protein}g</span>
+                    </div>
+                    <div class="bg-green-100 p-1 rounded text-center">
+                        <span class="block font-semibold">Carbs</span>
+                        <span>${carbs}g</span>
+                    </div>
+                    <div class="bg-yellow-100 p-1 rounded text-center">
+                        <span class="block font-semibold">Fat</span>
+                        <span>${fat}g</span>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update the diet tip on page load
+            const randomTip = getRandomDietTip();
+            document.getElementById('diet-tip-icon').textContent = randomTip.icon;
+            document.getElementById('diet-tip-title').textContent = randomTip.title;
+            document.getElementById('diet-tip-description').textContent = randomTip.description;
+            
+            // Update the hero image on page load
+            const heroImage = document.querySelector('.relative.bg-white.border.rounded-lg.shadow-xl.overflow-hidden img');
+            heroImage.src = getRandomFoodImage();
+            
+            // Update the quote on page load
+            const randomQuote = getRandomQuote();
+            document.getElementById('quote-text').textContent = randomQuote.quote;
+            document.getElementById('quote-author').textContent = randomQuote.author;
+            
+            // Header navigation buttons
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert(`Navigating to ${this.textContent} page`);
+                });
+            });
+
+            // Get Started button in header
+            const headerGetStartedBtn = document.querySelector('header button');
+            
+            headerGetStartedBtn.addEventListener('click', function() {
+                // Scroll to calculator section
+                document.querySelector('.py-12.bg-gray-100').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Hero section buttons
+            const getStartedBtn = document.getElementById('get-started-btn');
+            const learnMoreBtn = document.getElementById('learn-more-btn');
+            
+            getStartedBtn.addEventListener('click', function() {
+                alert('Starting the onboarding process...');
+                // Scroll to calculator section
+                document.querySelector('.py-12.bg-gray-100').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            learnMoreBtn.addEventListener('click', function() {
+                // Create a modal dialog for "Learn More"
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                modal.innerHTML = `
+                    <div class="bg-white rounded-lg max-w-2xl w-full mx-4 overflow-hidden">
+                        <div class="p-4 border-b flex justify-between items-center">
+                            <h3 class="text-xl font-semibold">About NutritionAI</h3>
+                            <button class="text-gray-500 hover:text-gray-700" id="close-modal">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="p-6 max-h-[70vh] overflow-y-auto">
+                            <h4 class="text-lg font-semibold mb-3 text-primary">Our Mission</h4>
+                            <p class="mb-4">
+                                NutritionAI is dedicated to making personalized nutrition accessible to everyone. We combine cutting-edge AI technology with evidence-based nutrition science to provide tailored dietary recommendations that fit your unique needs and goals.
+                            </p>
+                            
+                            <h4 class="text-lg font-semibold mb-3 text-primary">Key Features</h4>
+                            <ul class="list-disc pl-5 mb-4 space-y-2">
+                                <li><strong>Personalized Nutrition Plans:</strong> Get customized meal plans based on your body metrics, preferences, and health goals.</li>
+                                <li><strong>AI-Powered Food Analysis:</strong> Instantly identify foods and get detailed nutritional information using your camera.</li>
+                                <li><strong>Nutrition Assistant:</strong> Chat with our AI to get answers to your nutrition questions and personalized advice.</li>
+                                <li><strong>Progress Tracking:</strong> Monitor your nutrition goals and see your progress over time.</li>
+                                <li><strong>Scientific Approach:</strong> All recommendations are based on the latest nutrition research and guidelines.</li>
+                            </ul>
+                            
+                            <h4 class="text-lg font-semibold mb-3 text-primary">How It Works</h4>
+                            <p class="mb-4">
+                                Our platform uses machine learning algorithms trained on extensive nutrition databases to analyze your personal data and preferences. This allows us to generate highly personalized recommendations that adapt to your changing needs and goals.
+                            </p>
+                            
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="text-lg font-semibold mb-2">Ready to transform your nutrition?</h4>
+                                <p>Get started today and discover how AI-powered nutrition can help you achieve your health goals.</p>
+                            </div>
+                        </div>
+                        <div class="p-4 border-t flex justify-end">
+                            <button class="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium" id="modal-get-started">
+                                Get Started
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+                
+                // Close modal when clicking the close button
+                document.getElementById('close-modal').addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+                
+                // Close modal when clicking outside the content
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                        document.body.style.overflow = ''; // Restore scrolling
+                    }
+                });
+                
+                // Get started button in modal
+                document.getElementById('modal-get-started').addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                    document.body.style.overflow = ''; // Restore scrolling
+                    // Scroll to calculator section
+                    document.querySelector('.py-12.bg-gray-100').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            // Nutrition Calculator
+            document.getElementById('calculate-btn').addEventListener('click', function() {
+                const height = parseFloat(document.getElementById('height').value);
+                const weight = parseFloat(document.getElementById('weight').value);
+                const age = parseInt(document.getElementById('age').value);
+                const gender = document.getElementById('gender').value;
+                const activityLevel = document.getElementById('activityLevel').value;
+                const goal = document.getElementById('goal').value;
+
+                if (!height || !weight || !age) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Calculate BMI
+                const bmi = (weight / ((height / 100) * (height / 100))).toFixed(1);
+                
+                // Determine BMI category
+                let bmiCategory = '';
+                if (bmi < 18.5) bmiCategory = 'Underweight';
+                else if (bmi >= 18.5 && bmi < 25) bmiCategory = 'Normal weight';
+                else if (bmi >= 25 && bmi < 30) bmiCategory = 'Overweight';
+                else bmiCategory = 'Obese';
+
+                // Calculate IBW (Ideal Body Weight) using Devine formula
+                const heightInches = height / 2.54;
+                let ibw = 0;
+                if (gender === 'male') {
+                    ibw = (50 + (2.3 * (heightInches - 60))).toFixed(1);
+                } else {
+                    ibw = (45.5 + (2.3 * (heightInches - 60))).toFixed(1);
+                }
+
+                // Calculate BMR (Basal Metabolic Rate) using Mifflin-St Jeor Equation
+                let bmr = 0;
+                if (gender === 'male') {
+                    bmr = Math.round(10 * weight + 6.25 * height - 5 * age + 5);
+                } else {
+                    bmr = Math.round(10 * weight + 6.25 * height - 5 * age - 161);
+                }
+
+                // Calculate TDEE (Total Daily Energy Expenditure)
+                const activityMultipliers = {
+                    'sedentary': 1.2,
+                    'light': 1.375,
+                    'moderate': 1.55,
+                    'active': 1.725,
+                    'very_active': 1.9
+                };
+                const tdee = Math.round(bmr * activityMultipliers[activityLevel]);
+
+                // Calculate calorie target based on goal
+                let calorieTarget = tdee;
+                switch (goal) {
+                    case 'weight_loss':
+                        calorieTarget = Math.round(tdee * 0.8);
+                        break;
+                    case 'moderate_weight_loss':
+                        calorieTarget = Math.round(tdee * 0.85);
+                        break;
+                    case 'mild_weight_loss':
+                        calorieTarget = Math.round(tdee * 0.9);
+                        break;
+                    case 'maintenance':
+                        calorieTarget = tdee;
+                        break;
+                    case 'mild_weight_gain':
+                        calorieTarget = Math.round(tdee * 1.1);
+                        break;
+                    case 'moderate_weight_gain':
+                        calorieTarget = Math.round(tdee * 1.15);
+                        break;
+                    case 'weight_gain':
+                        calorieTarget = Math.round(tdee * 1.2);
+                        break;
+                }
+
+                // Calculate macros
+                let proteinPct = 0.3;
+                let fatPct = 0.3;
+                let carbsPct = 0.4;
+
+                if (goal === 'weight_loss') {
+                    proteinPct = 0.35;
+                    fatPct = 0.35;
+                    carbsPct = 0.3;
+                } else if (goal === 'weight_gain') {
+                    proteinPct = 0.3;
+                    fatPct = 0.25;
+                    carbsPct = 0.45;
+                }
+
+                const proteinGrams = Math.round((calorieTarget * proteinPct) / 4);
+                const carbsGrams = Math.round((calorieTarget * carbsPct) / 4);
+                const fatGrams = Math.round((calorieTarget * fatPct) / 9);
+
+                // Update the UI with calculated values
+                document.getElementById('bmi-value').textContent = bmi;
+                document.getElementById('bmi-category').textContent = bmiCategory;
+                document.getElementById('ibw-value').textContent = ibw + ' kg';
+                document.getElementById('bmr-value').textContent = bmr + ' calories';
+                document.getElementById('tdee-value').textContent = tdee + ' calories';
+                document.getElementById('calorie-target').textContent = calorieTarget + ' calories';
+                document.getElementById('protein-value').textContent = proteinGrams + 'g';
+                document.getElementById('carbs-value').textContent = carbsGrams + 'g';
+                document.getElementById('fat-value').textContent = fatGrams + 'g';
+                document.getElementById('protein-percent').textContent = Math.round(proteinPct * 100) + '%';
+                document.getElementById('carbs-percent').textContent = Math.round(carbsPct * 100) + '%';
+                document.getElementById('fat-percent').textContent = Math.round(fatPct * 100) + '%';
+
+                // Show results
+                document.getElementById('results').classList.remove('hidden');
+            });
+
+            // AI Chat functionality
+            const chatInput = document.querySelector('.card:nth-child(3) input');
+            const sendButton = document.querySelector('.card:nth-child(3) button');
+            const chatContainer = document.querySelector('.card:nth-child(3) .h-48');
+            
+            function handleSendMessage() {
+                const userInput = chatInput.value.trim();
+                if (!userInput) return;
+                
+                // Add user message to chat
+                const userDiv = document.createElement('div');
+                userDiv.className = 'flex justify-end';
+                userDiv.innerHTML = `
+                    <div class="max-w-[90%] rounded-lg p-2 bg-primary text-white text-sm">
+                        <div>${userInput}</div>
+                        <div class="text-xs mt-1 text-white/70">You</div>
+                    </div>
+                `;
+                chatContainer.appendChild(userDiv);
+                
+                // Clear input
+                chatInput.value = '';
+                
+                // Simulate AI thinking
+                sendButton.textContent = '...';
+                sendButton.disabled = true;
+                
+                // Generate and add AI response after a delay
+                setTimeout(() => {
+                    const aiDiv = document.createElement('div');
+                    aiDiv.className = 'flex justify-start';
+                    aiDiv.innerHTML = `
+                        <div class="max-w-[90%] rounded-lg p-2 bg-gray-100 text-sm">
+                            <div>${generateAIResponse(userInput)}</div>
+                            <div class="text-xs mt-1 text-gray-500">AI</div>
+                        </div>
+                    `;
+                    chatContainer.appendChild(aiDiv);
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    
+                    // Reset button
+                    sendButton.textContent = 'Send';
+                    sendButton.disabled = false;
+                }, 1000);
+            }
+            
+            sendButton.addEventListener('click', handleSendMessage);
+            
+            chatInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    handleSendMessage();
+                }
+            });
+
+            // Vision-based nutrition analysis functionality
+            const startCameraBtn = document.getElementById('start-camera');
+            const takePhotoBtn = document.getElementById('take-photo');
+            const cameraFeed = document.getElementById('camera-feed');
+            const cameraPlaceholder = document.getElementById('camera-placeholder');
+            const scanningOverlay = document.getElementById('scanning-overlay');
+            const analysisResults = document.getElementById('analysis-results');
+            const analysisPlaceholder = document.getElementById('analysis-placeholder');
+            const foodItemsContainer = document.getElementById('food-items-container');
+            
+            let stream = null;
+            let detectedFoods = [];
+            
+            // Start camera
+            startCameraBtn.addEventListener('click', async function() {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    cameraFeed.srcObject = stream;
+                    cameraFeed.classList.remove('hidden');
+                    cameraPlaceholder.classList.add('hidden');
+                    cameraFeed.play();
+                    startCameraBtn.textContent = 'Stop Camera';
+                    takePhotoBtn.disabled = false;
+                    
+                    // Toggle camera on/off
+                    if (startCameraBtn.dataset.status === 'on') {
+                        if (stream) {
+                            stream.getTracks().forEach(track => track.stop());
+                        }
+                        cameraFeed.classList.add('hidden');
+                        cameraPlaceholder.classList.remove('hidden');
+                        startCameraBtn.textContent = 'Start Camera';
+                        takePhotoBtn.disabled = true;
+                        startCameraBtn.dataset.status = 'off';
+                    } else {
+                        startCameraBtn.dataset.status = 'on';
+                    }
+                } catch (err) {
+                    console.error('Error accessing camera:', err);
+                    alert('Could not access camera. Please make sure you have granted camera permissions.');
+                }
+            });
+            
+            // Analyze food from camera
+            takePhotoBtn.addEventListener('click', function() {
+                // Show scanning overlay
+                scanningOverlay.classList.remove('hidden');
+                scanningOverlay.style.display = 'flex';
+                
+                // Simulate AI analysis (in a real app, this would send the image to a vision API)
+                setTimeout(() => {
+                    // Hide scanning overlay
+                    scanningOverlay.classList.add('hidden');
+                    
+                    // Show analysis results
+                    analysisResults.classList.remove('hidden');
+                    analysisPlaceholder.classList.add('hidden');
+                    
+                    // Clear previous results
+                    foodItemsContainer.innerHTML = '';
+                    
+                    // Add a header to the results
+                    const header = document.createElement('div');
+                    header.className = 'text-sm font-medium mb-3';
+                    header.textContent = 'Detected Food Items:';
+                    foodItemsContainer.appendChild(header);
+                    
+                    // Instead of random foods, let's simulate a more realistic AI detection
+                    // We'll pick 1-2 foods that would likely be seen together
+                    let detectedFoods = [];
+                    
+                    // Simulate different detection scenarios
+                    const scenario = Math.floor(Math.random() * 5);
+                    switch(scenario) {
+                        case 0: // Breakfast
+                            detectedFoods = ['banana', 'oatmeal'];
+                            break;
+                        case 1: // Lunch/Dinner protein
+                            detectedFoods = ['chicken_breast', 'broccoli', 'rice'];
+                            break;
+                        case 2: // Healthy snack
+                            detectedFoods = ['apple'];
+                            break;
+                        case 3: // Seafood meal
+                            detectedFoods = ['salmon', 'sweet_potato'];
+                            break;
+                        case 4: // Vegetarian option
+                            detectedFoods = ['avocado', 'quinoa'];
+                            break;
+                    }
+                    
+                    // Calculate total nutrition
+                    let totalCalories = 0;
+                    let totalProtein = 0;
+                    let totalCarbs = 0;
+                    let totalFat = 0;
+                    
+                    // Add each detected food to the results
+                    detectedFoods.forEach(foodKey => {
+                        if (foodDatabase[foodKey]) {
+                            const food = foodDatabase[foodKey];
+                            
+                            // Generate a realistic confidence score (85-99%)
+                            const confidence = (85 + Math.floor(Math.random() * 15)) / 100;
+                            
+                            // Create food item card
+                            const foodItem = document.createElement('div');
+                            foodItem.className = 'mb-4 p-3 border rounded-lg bg-white';
+                            
+                            // Add food details with image
+                            foodItem.innerHTML = `
+                                <div class="flex items-center mb-2">
+                                    ${food.image ? `<img src="${food.image}" alt="${food.name}" class="w-12 h-12 object-cover rounded-md mr-3">` : ''}
+                                    <div>
+                                        <div class="font-semibold">${food.name}</div>
+                                        <div class="text-xs text-gray-500">${food.servingSize}</div>
+                                        <div class="text-xs text-primary">Confidence: ${Math.round(confidence * 100)}%</div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-4 gap-1 text-xs">
+                                    <div class="bg-gray-100 p-1 rounded text-center">
+                                        <div class="font-medium">${food.calories}</div>
+                                        <div class="text-gray-500">kcal</div>
+                                    </div>
+                                    <div class="bg-blue-50 p-1 rounded text-center">
+                                        <div class="font-medium">${food.protein}g</div>
+                                        <div class="text-gray-500">Protein</div>
+                                    </div>
+                                    <div class="bg-green-50 p-1 rounded text-center">
+                                        <div class="font-medium">${food.carbs}g</div>
+                                        <div class="text-gray-500">Carbs</div>
+                                    </div>
+                                    <div class="bg-yellow-50 p-1 rounded text-center">
+                                        <div class="font-medium">${food.fat}g</div>
+                                        <div class="text-gray-500">Fat</div>
+                                    </div>
+                                </div>
+                            `;
+                            foodItemsContainer.appendChild(foodItem);
+                            
+                            // Add to totals
+                            totalCalories += food.calories;
+                            totalProtein += food.protein;
+                            totalCarbs += food.carbs;
+                            totalFat += food.fat;
+                        }
+                    });
+                    
+                    // Add total nutrition summary if more than one food detected
+                    if (detectedFoods.length > 1) {
+                        const totalNutrition = document.createElement('div');
+                        totalNutrition.className = 'mt-4 p-3 border-t pt-3';
+                        totalNutrition.innerHTML = `
+                            <div class="font-semibold mb-2">Total Nutrition</div>
+                            <div class="grid grid-cols-4 gap-1 text-xs">
+                                <div class="bg-gray-100 p-2 rounded text-center">
+                                    <div class="font-medium">${Math.round(totalCalories)}</div>
+                                    <div class="text-gray-500">kcal</div>
+                                </div>
+                                <div class="bg-blue-50 p-2 rounded text-center">
+                                    <div class="font-medium">${totalProtein.toFixed(1)}g</div>
+                                    <div class="text-gray-500">Protein</div>
+                                </div>
+                                <div class="bg-green-50 p-2 rounded text-center">
+                                    <div class="font-medium">${totalCarbs.toFixed(1)}g</div>
+                                    <div class="text-gray-500">Carbs</div>
+                                </div>
+                                <div class="bg-yellow-50 p-2 rounded text-center">
+                                    <div class="font-medium">${totalFat.toFixed(1)}g</div>
+                                    <div class="text-gray-500">Fat</div>
+                                </div>
+                            </div>
+                        `;
+                        foodItemsContainer.appendChild(totalNutrition);
+                    }
+                }, 1500);
+            });
+            
+            // Simplified food analysis for the side-by-side layout
+            
+            // Helper function to get random foods from the database
+            function getRandomFoods(count) {
+                const foodKeys = Object.keys(foodDatabase);
+                const selectedFoods = [];
+                
+                for (let i = 0; i < count; i++) {
+                    const randomIndex = Math.floor(Math.random() * foodKeys.length);
+                    const foodKey = foodKeys[randomIndex];
+                    selectedFoods.push(foodDatabase[foodKey]);
+                    
+                    // Remove the selected food to avoid duplicates
+                    foodKeys.splice(randomIndex, 1);
+                    
+                    // Break if we've used all available foods
+                    if (foodKeys.length === 0) break;
+                }
+                
+                return selectedFoods;
+            }
+
+            // No footer links to handle anymore
+        });
+    </script>
+</body>
+</html>
